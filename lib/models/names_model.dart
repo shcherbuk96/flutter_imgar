@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'names_model.g.dart';
+
 @JsonSerializable()
 class Names {
   String title;
@@ -8,17 +10,7 @@ class Names {
 
   Names({this.title, this.image, this.id});
 
-  Names.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    image = json['image'];
-    id = json['id'];
-  }
+  factory Names.fromJson(Map<String, dynamic> json) => _$NamesFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['image'] = this.image;
-    data['id'] = this.id;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$NamesToJson(this);
 }
