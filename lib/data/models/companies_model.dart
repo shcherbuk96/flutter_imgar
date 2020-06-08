@@ -7,7 +7,7 @@ class Companies {
   String title;
   String id;
   Companies({this.title, this.id});
-  
+
   factory Companies.fromJson(Map<String, dynamic> json) =>
       _$CompaniesFromJson(json);
 
