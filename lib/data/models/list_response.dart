@@ -1,6 +1,6 @@
-import 'package:imgar/data/models/companies_model.dart';
-import 'package:imgar/data/models/names_model.dart';
-import 'package:imgar/data/models/titles_model.dart';
+import 'package:imgar/data/models/companie_model.dart';
+import 'package:imgar/data/models/name_model.dart';
+import 'package:imgar/data/models/title_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'list_response.g.dart';
@@ -8,11 +8,11 @@ part 'list_response.g.dart';
 @JsonSerializable()
 class ResponseData {
   @JsonKey(defaultValue: [])
-  List<Titles> titles;
+  List<Title> titles;
   @JsonKey(defaultValue: [])
-  List<Names> names;
+  List<Name> names;
   @JsonKey(defaultValue: [])
-  List<Companies> companies;
+  List<Companie> companies;
 
   ResponseData({this.titles, this.names, this.companies});
 

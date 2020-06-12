@@ -2,14 +2,25 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:imgar/ui/list_screen/list_screen.dart';
+import 'package:imgar/constants/constants.dart';
+import 'package:imgar/constants/routes_constants.dart';
+import 'package:imgar/data/services/database/db.dart';
+import 'package:imgar/data/services/navigation/navigation_service.dart';
+import 'package:imgar/data/services/navigation/routes.dart';
+import 'package:imgar/data/services/service_locator.dart';
 
-const imdb_logo = "assets/imdb.png";
-const title_text = "Main Page";
-
-void main() => runApp(MaterialApp(
-      home: MainScreen(),
-    ));
+var navigationService = locator<NavigationService>();
+void main() async {
+  setupLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  await DB.init();
+  runApp(MaterialApp(
+    navigatorKey: navigationService.navigatorKey,
+    onGenerateRoute: Router.generateRoute,
+    initialRoute: homeRoute,
+    home: MainScreen(),
+  ));
+}
 
 class MainScreen extends StatelessWidget {
   @override
@@ -46,8 +57,7 @@ class MainScreen extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => ListScreen()));
+        navigationService.navigateTo(listScreenRoute, null);
       },
       child: Icon(
         Icons.play_arrow,

@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:imgar/constants/constants.dart';
+import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
+import 'package:imgar/data/services/navigation/navigation_service.dart';
+import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/ui/film_screen/film_screen_bloc.dart';
 
-final String titleScreen = "About Film";
-final String backBottomNavBarItem = "Back";
-final String saveBottomNavBarItem = "Save";
-final String imageIsSaving = "Saving...";
-final String imageIsSaved = "Image is saved";
+final navigationService = locator.get<NavigationService>();
 
 class FilmScreen extends StatefulWidget {
   final AboutFilm film;
@@ -104,8 +104,8 @@ class _FilmScreenState extends State<FilmScreen> {
   void onTabTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.pop(context);
-
+        navigationService.navigateTo(listScreenRoute, null);
+    
         break;
       case 1:
         _bloc.add(SaveFilmImageEvent(_bloc.film.imageFilm));

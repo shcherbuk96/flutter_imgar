@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imgar/constants/constants.dart';
+import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
-import 'package:imgar/ui/film_screen/film_sreen.dart';
+import 'package:imgar/data/services/navigation/navigation_service.dart';
+import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/ui/list_screen/list_screen_bloc.dart';
+import 'package:imgar/data/models/title_model.dart';
+import 'package:provider/provider.dart';
 
-final String titleScreen = "List Films";
-final String hintSearchFiled = "Enter the movie";
+final navigationService = locator.get<NavigationService>();
 
 class ListScreen extends StatefulWidget {
   @override
@@ -16,7 +20,7 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   bool isSearching = false;
 
-  final _bloc = ListScreenBloc();
+  final _bloc = locator.get<ListScreenBloc>();
   TextEditingController _searchController = TextEditingController();
 
   @override
@@ -26,10 +30,7 @@ class _ListScreenState extends State<ListScreen> {
         builder: (context, state) {
           if (state is GoToFilmScreenState) {
             SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FilmScreen(state.film)));
+              navigationService.navigateTo(filmScreenRoute, state.film);
             });
           }
           return Scaffold(
@@ -58,49 +59,34 @@ class _ListScreenState extends State<ListScreen> {
 
   Widget listFilms() {
     if (_bloc.state is ListFilmsIsLoadingState) {
-      // _bloc.add(RandomFilmsEvent()); //??
       return CircularProgressIndicator();
     } else {
       return ListView.builder(
-          itemCount: _bloc.resp.titles.length,
+          itemCount: _bloc.titles.length,
           itemBuilder: (BuildContext context, int index) {
             return itemListView(index);
           });
+      // if(_bloc._titlesDB.isEmpty||_bloc._titlesDB.length==0){
+      //   return ListView.builder(
+      //     itemCount: _bloc.titles.length,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       return itemListView(index);
+      //     });
+      // }
+      // return ListView.builder(
+      //     itemCount: _bloc._titlesDB.length,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       return itemListView(index);
+      //     });
     }
   }
 
   Widget itemListView(int index) {
-    // return Column(
-    //   children: <Widget>[
-    //     CachedNetworkImage(
-    //       height: 550,
-    //       fit: BoxFit.fill,
-    //       imageUrl: resp.titles[index].image,
-
-    //       placeholder: (context, url) => CircularProgressIndicator(),
-    //       errorWidget: (context, url, error) => new Icon(Icons.error),
-    //     ),
-    //     Container(
-    //         child: Align(
-    //             alignment: AlignmentDirectional.bottomCenter,
-    //             child: SizedBox(
-    //               width: double.infinity,
-    //               child: MaterialButton(
-    //                 onPressed: () {
-    //                   _bloc.add(GoToFilmScreenEvent(AboutFilm(
-    //                       resp.titles[index].title, resp.titles[index].image)));
-    //                 },
-    //                 color: Colors.yellow,
-    //                 child: Text(resp.titles[index].title),
-    //               ),
-    //             )))
-    //   ],
-    // );
     return Container(
         height: 550,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: NetworkImage(_bloc.resp.titles[index].image),
+                image: NetworkImage(_bloc.titles[index].image),
                 fit: BoxFit.fill)),
         child: Align(
             alignment: AlignmentDirectional.bottomCenter,
@@ -109,11 +95,10 @@ class _ListScreenState extends State<ListScreen> {
               child: MaterialButton(
                 onPressed: () {
                   _bloc.add(GoToFilmScreenEvent(AboutFilm(
-                      _bloc.resp.titles[index].title,
-                      _bloc.resp.titles[index].image)));
+                      _bloc.titles[index].title, _bloc.titles[index].image)));
                 },
                 color: Colors.yellow,
-                child: Text(_bloc.resp.titles[index].title),
+                child: Text(_bloc.titles[index].title),
               ),
             )));
   }
@@ -124,21 +109,7 @@ class _ListScreenState extends State<ListScreen> {
       centerTitle: true,
       backgroundColor: Colors.yellow,
       title: _searchTitle(),
-      actions: [isSearching ? _cancelIconButton() : _searchIconButton()],
-    );
-  }
-
-  IconButton _searchIconButton() {
-    return IconButton(
-      icon: Icon(
-        Icons.search,
-        color: Colors.black,
-      ),
-      onPressed: () {
-        setState(() {
-          this.isSearching = true;
-        });
-      },
+      actions: [_cancelIconButton()],
     );
   }
 
@@ -149,26 +120,17 @@ class _ListScreenState extends State<ListScreen> {
         color: Colors.black,
       ),
       onPressed: () {
-        setState(() {
-          _searchController.clear();
-          this.isSearching = false;
-        });
+        _searchController.clear();
       },
     );
   }
 
   Widget _searchTitle() {
-    return !isSearching
-        ? Text(
-            titleScreen,
-            style: TextStyle(color: Colors.black),
-          )
-        : TextField(
-            controller: _searchController,
-            style: TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                hintText: hintSearchFiled,
-                hintStyle: TextStyle(color: Colors.black)),
-          );
+    return TextField(
+      controller: _searchController,
+      style: TextStyle(color: Colors.black),
+      decoration: InputDecoration(
+          hintText: hintSearchFiled, hintStyle: TextStyle(color: Colors.black)),
+    );
   }
 }

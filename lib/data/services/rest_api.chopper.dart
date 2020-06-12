@@ -19,7 +19,7 @@ class _$RestClient extends RestClient {
   @override
   Future<Response<ResponseData>> getFilms(String film) {
     final $url =
-        'https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search/film';
+        'https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search/$film';
     final $headers = {
       'x-rapidapi-key': '9d2579bf43msh8b138883cc45695p1254cejsn4af7ec1ce4fc'
     };
