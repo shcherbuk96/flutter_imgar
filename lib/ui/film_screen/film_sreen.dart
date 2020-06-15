@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:imgar/constants/constants.dart';
 import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
@@ -55,7 +56,7 @@ class _FilmScreenState extends State<FilmScreen> {
                 ),
                 title: Text(
                   backBottomNavBarItem,
-                  style: TextStyle(color: Colors.yellow),
+                  style: GoogleFonts.adventPro(color: Colors.yellow),
                 ),
               ),
               BottomNavigationBarItem(
@@ -64,13 +65,13 @@ class _FilmScreenState extends State<FilmScreen> {
                     color: Colors.yellow,
                   ),
                   title: Text(saveBottomNavBarItem,
-                      style: TextStyle(color: Colors.yellow))),
+                      style: GoogleFonts.adventPro(color: Colors.yellow))),
             ]),
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
             _bloc.film.nameFilm,
-            style: TextStyle(color: Colors.yellow),
+            style: GoogleFonts.adventPro(color: Colors.yellow),
           ),
           centerTitle: true,
         ),
@@ -105,7 +106,7 @@ class _FilmScreenState extends State<FilmScreen> {
     switch (index) {
       case 0:
         navigationService.navigateTo(listScreenRoute, null);
-    
+
         break;
       case 1:
         _bloc.add(SaveFilmImageEvent(_bloc.film.imageFilm));
@@ -119,7 +120,7 @@ class _FilmScreenState extends State<FilmScreen> {
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.yellow,
-        textColor: Colors.black,
+        textColor: Colors.black,        
         fontSize: 16.0);
   }
 }

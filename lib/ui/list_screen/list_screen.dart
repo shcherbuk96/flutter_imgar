@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:imgar/constants/constants.dart';
 import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
 import 'package:imgar/data/services/navigation/navigation_service.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/ui/list_screen/list_screen_bloc.dart';
-import 'package:imgar/data/models/title_model.dart';
-import 'package:provider/provider.dart';
 
 final navigationService = locator.get<NavigationService>();
 
@@ -66,18 +65,6 @@ class _ListScreenState extends State<ListScreen> {
           itemBuilder: (BuildContext context, int index) {
             return itemListView(index);
           });
-      // if(_bloc._titlesDB.isEmpty||_bloc._titlesDB.length==0){
-      //   return ListView.builder(
-      //     itemCount: _bloc.titles.length,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       return itemListView(index);
-      //     });
-      // }
-      // return ListView.builder(
-      //     itemCount: _bloc._titlesDB.length,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       return itemListView(index);
-      //     });
     }
   }
 
@@ -98,7 +85,11 @@ class _ListScreenState extends State<ListScreen> {
                       _bloc.titles[index].title, _bloc.titles[index].image)));
                 },
                 color: Colors.yellow,
-                child: Text(_bloc.titles[index].title),
+                child: Text(
+                  _bloc.titles[index].title,
+                  style:
+                      GoogleFonts.adventPro(color: Colors.black, fontSize: 24),
+                ),
               ),
             )));
   }
@@ -128,9 +119,12 @@ class _ListScreenState extends State<ListScreen> {
   Widget _searchTitle() {
     return TextField(
       controller: _searchController,
-      style: TextStyle(color: Colors.black),
+      style: GoogleFonts.adventPro(
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
-          hintText: hintSearchFiled, hintStyle: TextStyle(color: Colors.black)),
+          hintText: hintSearchFiled,
+          hintStyle: GoogleFonts.adventPro(color: Colors.black)),
     );
   }
 }
