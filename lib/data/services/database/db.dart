@@ -1,11 +1,11 @@
 import 'dart:async';
+
 import 'package:imgar/data/models/db_item.dart';
-import 'package:imgar/data/models/title_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DB {
   static Database _db;
-
+  static String nameTable = "Terminator";
   static int get _version => 1;
 
   static Future<void> init() async {
@@ -21,8 +21,12 @@ abstract class DB {
     }
   }
 
+  static Database getDB() {
+    return _db;
+  }
+
   static void onCreate(Database db, int version) async => await db.execute(
-      'CREATE TABLE title_items (id INTEGER PRIMARY KEY NOT NULL, title STRING, image STRING)');
+      'CREATE TABLE $nameTable (id INTEGER PRIMARY KEY NOT NULL, title STRING, image STRING)');
 
   static Future<List<Map<String, dynamic>>> query(String table) async =>
       _db.query(table);
@@ -35,4 +39,8 @@ abstract class DB {
 
   static Future<int> delete(String table, TitleItem model) async =>
       await _db.delete(table, where: 'id = ?', whereArgs: [model.id]);
+
+  static void onDispoce() {
+    _db.close();
+  }
 }
