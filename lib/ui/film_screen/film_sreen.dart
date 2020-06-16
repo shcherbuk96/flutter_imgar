@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:imgar/constants/constants.dart';
 import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
 import 'package:imgar/data/services/navigation/navigation_service.dart';
 import 'package:imgar/data/services/service_locator.dart';
+import 'package:imgar/generated/i18n.dart';
 import 'package:imgar/ui/film_screen/film_screen_bloc.dart';
 
 final navigationService = locator.get<NavigationService>();
@@ -55,7 +55,8 @@ class _FilmScreenState extends State<FilmScreen> {
                   color: Colors.yellow,
                 ),
                 title: Text(
-                  backBottomNavBarItem,
+                  I18n.of(context)
+                      .bottom_navigation_film_screenBackBottomNavBarItem,
                   style: GoogleFonts.adventPro(color: Colors.yellow),
                 ),
               ),
@@ -64,7 +65,9 @@ class _FilmScreenState extends State<FilmScreen> {
                     Icons.save,
                     color: Colors.yellow,
                   ),
-                  title: Text(saveBottomNavBarItem,
+                  title: Text(
+                      I18n.of(context)
+                          .bottom_navigation_film_screenSaveBottomNavBarItem,
                       style: GoogleFonts.adventPro(color: Colors.yellow))),
             ]),
         appBar: AppBar(
@@ -80,9 +83,13 @@ class _FilmScreenState extends State<FilmScreen> {
 
   Widget bodyImage() {
     if (_bloc.state is FilmIsSavingState) {
-      showToast(imageIsSaving);
+      showToast(
+        I18n.of(context).toast_film_screenImageIsSaving,
+      );
     } else if (_bloc.state is FilmIsSavedState) {
-      showToast(imageIsSaved);
+      showToast(
+        I18n.of(context).toast_film_screenImageIsSaved,
+      );
     }
 
     return Stack(
@@ -120,7 +127,7 @@ class _FilmScreenState extends State<FilmScreen> {
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.yellow,
-        textColor: Colors.black,        
+        textColor: Colors.black,
         fontSize: 16.0);
   }
 }

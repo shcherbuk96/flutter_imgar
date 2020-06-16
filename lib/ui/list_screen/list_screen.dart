@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:imgar/constants/constants.dart';
 import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
 import 'package:imgar/data/services/navigation/navigation_service.dart';
 import 'package:imgar/data/services/service_locator.dart';
+import 'package:imgar/generated/i18n.dart';
 import 'package:imgar/ui/list_screen/list_screen_bloc.dart';
 
 final navigationService = locator.get<NavigationService>();
@@ -123,7 +123,7 @@ class _ListScreenState extends State<ListScreen> {
         color: Colors.black,
       ),
       decoration: InputDecoration(
-          hintText: hintSearchFiled,
+          hintText: I18n.of(context).search_list_screenHintSearchFiled,
           hintStyle: GoogleFonts.adventPro(color: Colors.black)),
     );
   }

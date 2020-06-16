@@ -1,0 +1,18 @@
+{
+    "titles": {
+        "MainScreen":"Main Page",
+        "ListScreen" : "Films",
+        "FilmScreen" : "Details"
+    },
+    "search_list_screen":{
+        "hintSearchFiled" : "Enter the movie"
+    },
+    "bottom_navigation_film_screen":{
+        "backBottomNavBarItem": "Back",
+        "saveBottomNavBarItem" : "Save"
+    },
+    "toast_film_screen":{
+        "imageIsSaving": "Saving...",
+        "imageIsSaved" : "Image is saved"
+    }
+}
