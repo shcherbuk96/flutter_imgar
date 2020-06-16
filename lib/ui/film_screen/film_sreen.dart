@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
+import 'package:imgar/data/services/navigation/navigation_service.dart';
+import 'package:imgar/data/services/service_locator.dart';
+import 'package:imgar/generated/i18n.dart';
 import 'package:imgar/ui/film_screen/film_screen_bloc.dart';
 
-final String titleScreen = "About Film";
-final String backBottomNavBarItem = "Back";
-final String saveBottomNavBarItem = "Save";
-final String imageIsSaving = "Saving...";
-final String imageIsSaved = "Image is saved";
+final navigationService = locator.get<NavigationService>();
 
 class FilmScreen extends StatefulWidget {
   final AboutFilm film;
@@ -54,8 +55,9 @@ class _FilmScreenState extends State<FilmScreen> {
                   color: Colors.yellow,
                 ),
                 title: Text(
-                  backBottomNavBarItem,
-                  style: TextStyle(color: Colors.yellow),
+                  I18n.of(context)
+                      .bottom_navigation_film_screenBackBottomNavBarItem,
+                  style: GoogleFonts.adventPro(color: Colors.yellow),
                 ),
               ),
               BottomNavigationBarItem(
@@ -63,14 +65,16 @@ class _FilmScreenState extends State<FilmScreen> {
                     Icons.save,
                     color: Colors.yellow,
                   ),
-                  title: Text(saveBottomNavBarItem,
-                      style: TextStyle(color: Colors.yellow))),
+                  title: Text(
+                      I18n.of(context)
+                          .bottom_navigation_film_screenSaveBottomNavBarItem,
+                      style: GoogleFonts.adventPro(color: Colors.yellow))),
             ]),
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
             _bloc.film.nameFilm,
-            style: TextStyle(color: Colors.yellow),
+            style: GoogleFonts.adventPro(color: Colors.yellow),
           ),
           centerTitle: true,
         ),
@@ -79,9 +83,13 @@ class _FilmScreenState extends State<FilmScreen> {
 
   Widget bodyImage() {
     if (_bloc.state is FilmIsSavingState) {
-      showToast(imageIsSaving);
+      showToast(
+        I18n.of(context).toast_film_screenImageIsSaving,
+      );
     } else if (_bloc.state is FilmIsSavedState) {
-      showToast(imageIsSaved);
+      showToast(
+        I18n.of(context).toast_film_screenImageIsSaved,
+      );
     }
 
     return Stack(
@@ -104,7 +112,7 @@ class _FilmScreenState extends State<FilmScreen> {
   void onTabTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.pop(context);
+        navigationService.navigateTo(listScreenRoute, null);
 
         break;
       case 1:

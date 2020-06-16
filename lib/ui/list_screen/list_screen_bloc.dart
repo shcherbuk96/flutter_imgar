@@ -1,7 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imgar/constants/constants.dart';
 import 'package:imgar/data/models/about_film_model.dart';
-import 'package:imgar/data/models/list_response.dart';
+import 'package:imgar/data/models/db_item.dart';
+import 'package:imgar/data/models/title_model.dart';
+import 'package:imgar/data/services/database/db.dart';
 import 'package:imgar/data/services/rest_api.dart';
+import 'package:imgar/data/services/service_locator.dart';
+import 'package:sqflite/sqflite.dart';
 
 //-----------------------------States--------------------------------//
 abstract class ListScreenState {
@@ -20,11 +25,7 @@ class GoToFilmScreenState extends ListScreenState {
   const GoToFilmScreenState(this.film);
 }
 
-class SearchFilmIsLoadedState extends ListScreenState {
-  Future<ResponseData> fResp;
-
-  SearchFilmIsLoadedState(this.fResp);
-}
+class SearchFilmIsLoadedState extends ListScreenState {}
 //-------------------------------------------------------------------//
 
 //--------------------------Events----------------------------------//
@@ -52,7 +53,10 @@ class InitEvent extends ListScreenEvent {}
 
 //#Bloc
 class ListScreenBloc extends Bloc<ListScreenEvent, ListScreenState> {
-  ResponseData resp;
+  List<Title> titles = [];
+  List<TitleItem> _titlesDB = [];
+  final chopper = locator.get<RestClient>();
+  Database database = DB.getDB();
 
   ListScreenBloc() {
     init();
@@ -75,13 +79,79 @@ class ListScreenBloc extends Bloc<ListScreenEvent, ListScreenState> {
   Stream<ListScreenState> handleTextChanged(String query) async* {
     if (query.length < 1) return;
     yield SearchFilmIsLoadingState();
-    //data = DioNetworkService().restClient().getFilms(query);
-    // yield SearchFilmIsLoadedState(data);
+
+    Future.delayed(Duration(milliseconds: 1000)).then((value) async {
+      titles = await chopper.getFilms(query).then((value) => value.body.titles);
+      // titles.forEach((element) {
+      //   _save(element);
+      // });
+      // DB.nameTable = query;
+
+      // String path = await getDatabasesPath() + 'imgar';
+
+      // await databaseExists(path).then((value) {
+      //   if (!value) {
+      //     print(value);
+      //     database.execute(
+      //         'CREATE TABLE $query (id INTEGER PRIMARY KEY NOT NULL, title STRING, image STRING)');
+      //   }
+      //   print(value);
+      // });
+
+      // List<Map<String, dynamic>> _results = await DB.query(DB.nameTable);
+      // _titlesDB = _results.map((item) => TitleItem.fromMap(item)).toList();
+
+      // if (_titlesDB.isNotEmpty) {
+      //   _titlesDB.forEach((element) {
+      //     titles.add(Title(
+      //         id: element.id.toString(),
+      //         title: element.title,
+      //         image: element.image));
+      //   });
+      // }
+
+      // if (titles.isEmpty) {
+      //   titles =
+      //       await chopper.getFilms(query).then((value) => value.body.titles);
+      //   titles.forEach((element) {
+      //     _save(element);
+      //   });
+      // }
+    });
+
+    yield ListFilmsIsLoadedState();
+  }
+
+  Future<bool> databaseExists(String path) {
+    return databaseFactory.databaseExists(path);
   }
 
   Future init() async {
-    final chopper = RestClient.create();
-    resp = await chopper.getFilms("film").then((value) => value.body);
+    List<Map<String, dynamic>> _results = await DB.query(DB.nameTable);
+    _titlesDB = _results.map((item) => TitleItem.fromMap(item)).toList();
+    if (_titlesDB.isNotEmpty) {
+      _titlesDB.forEach((element) {
+        titles.add(Title(
+            id: element.id.toString(),
+            title: element.title,
+            image: element.image));
+      });
+    }
+
+    if (titles.isEmpty) {
+      titles = await chopper
+          .getFilms(textRequest)
+          .then((value) => value.body.titles);
+      titles.forEach((element) {
+        _save(element);
+      });
+    }
+
     add(InitEvent());
+  }
+
+  void _save(Title obj) async {
+    TitleItem item = TitleItem(image: obj.image, title: obj.title);
+    await DB.insert(DB.nameTable, item);
   }
 }
