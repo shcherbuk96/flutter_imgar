@@ -1,4 +1,5 @@
 const imdb_logo = "assets/imdb_logo.png";
+const imdb_header = "assets/header.jpg";
 final String textRequest = "Game of Thrones";
 
 const String fontProximaNova = 'ProximaNova';

@@ -35,8 +35,10 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>
+    with SingleTickerProviderStateMixin {
   final _bloc = createMainScreenBloc();
+  AnimationController _animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,12 @@ class _MainScreenState extends State<MainScreen> {
       body: Padding(
           padding: const EdgeInsets.all(48),
           child: Center(
-            child: Image.asset(imdb_logo),
+            child: RotationTransition(
+              turns: _animationController,
+              child: Image.asset(imdb_logo),
+              alignment: Alignment.center,
+            ),
+            // child: Image.asset(imdb_logo),
           )),
       backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -65,12 +72,21 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     I18n.onLocaleChanged = onLocaleChange;
+    _animationController =
+        AnimationController(duration: Duration(seconds: 15), vsync: this)
+          ..repeat();
   }
 
   void onLocaleChange(Locale locale) {
     setState(() {
       I18n.locale = locale;
     });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   AppBar _appBar() {

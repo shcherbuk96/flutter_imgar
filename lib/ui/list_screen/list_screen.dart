@@ -26,10 +26,8 @@ class _ListScreenState extends State<ListScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.black,
-            appBar: _appBar(),
-            body: Center(
-              child: listFilms(),
-            ),
+            //appBar: _appBar(),
+            body: listFilms(),
           );
         });
   }
@@ -55,11 +53,34 @@ class _ListScreenState extends State<ListScreen> {
           backgroundColor: Colors.black,
           body: Center(child: CircularProgressIndicator()));
     } else {
-      return ListView.builder(
-          itemCount: _bloc.titles.length,
-          itemBuilder: (BuildContext context, int index) {
-            return itemListView(index);
-          });
+      return CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: _searchTitle(),
+            iconTheme: IconThemeData(color: Colors.white),
+            centerTitle: true,
+            backgroundColor: Colors.black,
+            actions: [_cancelIconButton()],
+            expandedHeight: 200.0,
+            pinned: true,
+            elevation: 20,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset(imdb_header),
+
+              //stretchModes: <StretchMode>[StretchMode.blurBackground,StretchMode.fadeTitle,StretchMode.zoomBackground],
+            ),
+          ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) => itemListView(index),
+                  childCount: _bloc.titles.length))
+        ],
+      );
+      // return ListView.builder(
+      //     itemCount: _bloc.titles.length,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       return itemListView(index);
+      //     });
     }
   }
 

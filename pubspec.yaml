@@ -73,6 +73,7 @@ flutter:
     - assets/giphy.gif
     - assets/imdb.png
     - assets/imdb_logo.png
+    - assets/header.jpg
 
   fonts:
     - family: ProximaNova
