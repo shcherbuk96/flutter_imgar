@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:imgar/data/services/services.dart';
+import 'package:imgar/data/services/json_decoder.dart';
 
 typedef JsonFactory<T> = T Function(Map<String, dynamic> json);
 

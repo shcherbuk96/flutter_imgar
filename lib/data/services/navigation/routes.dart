@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:imgar/constants/routes_constants.dart';
-import 'package:imgar/data/models/about_film_model.dart';
 import 'package:imgar/ui/film_screen/film_sreen.dart';
 import 'package:imgar/ui/list_screen/list_screen.dart';
 import 'package:imgar/ui/main_screen.dart';
@@ -15,7 +14,7 @@ class Router {
         return MaterialPageRoute(builder: (_) => ListScreen());
       case filmScreenRoute:
         return MaterialPageRoute(
-            builder: (_) => FilmScreen(settings.arguments as AboutFilm));
+            builder: (_) => FilmScreen(settings.arguments as String));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

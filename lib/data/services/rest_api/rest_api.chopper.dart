@@ -21,9 +21,21 @@ class _$RestClient extends RestClient {
     final $url =
         'https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search/$film';
     final $headers = {
-      'x-rapidapi-key': '9d2579bf43msh8b138883cc45695p1254cejsn4af7ec1ce4fc'
+      'x-rapidapi-key': '1a54c9dcedmsh1767de492b741c6p15a25ejsn85ae2285542f'
     };
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
     return client.send<ResponseData, ResponseData>($request);
+  }
+
+  @override
+  Future<Response<FilmResponse>> getDetailFilm(String idFilm) {
+    final $url =
+        'https://imdb-internet-movie-database-unofficial.p.rapidapi.com/film/$idFilm';
+    final $headers = {
+      'x-rapidapi-key': '1a54c9dcedmsh1767de492b741c6p15a25ejsn85ae2285542f',
+      'useQueryString': 'true'
+    };
+    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+    return client.send<FilmResponse, FilmResponse>($request);
   }
 }
