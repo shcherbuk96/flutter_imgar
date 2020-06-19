@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:imgar/data/models/about_film_model.dart';
+import 'package:imgar/data/services/service_data.dart';
+import 'package:imgar/data/services/service_locator.dart';
 
 //---------------------------States-----------------------------//
 abstract class FilmScreenState {
@@ -29,14 +31,20 @@ class SaveFilmImageEvent extends FilmScreenEvent {
 }
 
 class FilmLoadedEvent extends FilmScreenEvent {}
+
+class GoToNextEpisodeEvent extends FilmScreenEvent {}
 //----------------------------------------------------------------//
 
 //------------------------------Bloc----------------------------//
 class FilmScreenBloc extends Bloc<FilmScreenEvent, FilmScreenState> {
-  final AboutFilm film;
-  FilmScreenBloc(this.film) {
-    Future.delayed(Duration(milliseconds: 1000))
-        .then((value) => add(FilmLoadedEvent()));
+  AboutFilm film;
+  final String id;
+  final navigationService = createNavigationService();
+  final chopperRestClient = createRestClient();
+  final chopperRestDetailsClient = createRestDetailsClient();
+
+  FilmScreenBloc(this.id) {
+    add(FilmLoadedEvent());
   }
 
   @override
@@ -50,6 +58,8 @@ class FilmScreenBloc extends Bloc<FilmScreenEvent, FilmScreenState> {
       await ImagePickerSaver.saveFile(fileData: response.bodyBytes);
       yield FilmIsSavedState();
     } else if (event is FilmLoadedEvent) {
+      yield FilmIsLoadingState();
+      film = await ServiceData().getInformationAboutFilm(id);
       yield FilmIsLoadedState();
     }
   }
