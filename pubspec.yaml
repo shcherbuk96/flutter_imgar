@@ -72,6 +72,25 @@ flutter:
   assets:
     - assets/giphy.gif
     - assets/imdb.png
+    - assets/imdb_logo.png
+    - assets/header.jpg
+
+  fonts:
+    - family: ProximaNova
+      fonts:
+        - asset: fonts/ProximaNova-Black.ttf
+        - asset: fonts/ProximaNova-BlackIt.ttf
+        - asset: fonts/ProximaNova-Bold.ttf
+        - asset: fonts/ProximaNova-Extrabld.ttf 
+        - asset: fonts/ProximaNova-ExtrabldIt.ttf
+        - asset: fonts/ProximaNova-Light.ttf   
+        - asset: fonts/ProximaNova-LightIt.ttf
+        - asset: fonts/ProximaNova-Regular.ttf
+        - asset: fonts/ProximaNova-RegularIt.ttf
+        - asset: fonts/ProximaNova-Semibold.ttf
+        - asset: fonts/ProximaNova-SemiboldIt.ttf
+        - asset: fonts/ProximaNova-ThinIt.ttf
+        - asset: fonts/ProximaNovaT-Thin.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

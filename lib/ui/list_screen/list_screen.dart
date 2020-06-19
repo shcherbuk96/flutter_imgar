@@ -1,15 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:imgar/constants/routes_constants.dart';
-import 'package:imgar/data/models/about_film_model.dart';
-import 'package:imgar/data/services/navigation/navigation_service.dart';
+import 'package:imgar/constants/constants.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/generated/i18n.dart';
 import 'package:imgar/ui/list_screen/list_screen_bloc.dart';
 
-final navigationService = locator.get<NavigationService>();
+final navigationService = createNavigationService();
 
 class ListScreen extends StatefulWidget {
   @override
@@ -19,7 +16,7 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   bool isSearching = false;
 
-  final _bloc = locator.get<ListScreenBloc>();
+  final _bloc = createListScreenBloc();
   TextEditingController _searchController = TextEditingController();
 
   @override
@@ -27,16 +24,10 @@ class _ListScreenState extends State<ListScreen> {
     return BlocBuilder<ListScreenBloc, ListScreenState>(
         bloc: _bloc,
         builder: (context, state) {
-          if (state is GoToFilmScreenState) {
-            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-              navigationService.navigateTo(filmScreenRoute, state.film);
-            });
-          }
           return Scaffold(
-            appBar: _appBar(),
-            body: Center(
-              child: listFilms(),
-            ),
+            backgroundColor: Colors.black,
+            //appBar: _appBar(),
+            body: listFilms(),
           );
         });
   }
@@ -58,47 +49,79 @@ class _ListScreenState extends State<ListScreen> {
 
   Widget listFilms() {
     if (_bloc.state is ListFilmsIsLoadingState) {
-      return CircularProgressIndicator();
+      return Scaffold(
+          backgroundColor: Colors.black,
+          body: Center(child: CircularProgressIndicator()));
     } else {
-      return ListView.builder(
-          itemCount: _bloc.titles.length,
-          itemBuilder: (BuildContext context, int index) {
-            return itemListView(index);
-          });
+      return CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: _searchTitle(),
+            iconTheme: IconThemeData(color: Colors.white),
+            centerTitle: true,
+            backgroundColor: Colors.black,
+            actions: [_cancelIconButton()],
+            expandedHeight: 200.0,
+            pinned: true,
+            elevation: 20,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset(imdb_header),
+
+              //stretchModes: <StretchMode>[StretchMode.blurBackground,StretchMode.fadeTitle,StretchMode.zoomBackground],
+            ),
+          ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) => itemListView(index),
+                  childCount: _bloc.titles.length))
+        ],
+      );
+      // return ListView.builder(
+      //     itemCount: _bloc.titles.length,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       return itemListView(index);
+      //     });
     }
   }
 
   Widget itemListView(int index) {
-    return Container(
-        height: 550,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(_bloc.titles[index].image),
-                fit: BoxFit.fill)),
-        child: Align(
-            alignment: AlignmentDirectional.bottomCenter,
-            child: SizedBox(
-              width: double.infinity,
-              child: MaterialButton(
-                onPressed: () {
-                  _bloc.add(GoToFilmScreenEvent(AboutFilm(
-                      _bloc.titles[index].title, _bloc.titles[index].image)));
-                },
-                color: Colors.yellow,
-                child: Text(
-                  _bloc.titles[index].title,
-                  style:
-                      GoogleFonts.adventPro(color: Colors.black, fontSize: 24),
+    return InkWell(
+        onTap: () => {_bloc.add(GoToFilmScreenEvent(_bloc.titles[index].id))},
+        child: Container(
+            height: 350,
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                CachedNetworkImage(
+                  imageUrl: _bloc.titles[index].image,
+                  placeholder: (context, url) =>
+                      Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  fit: BoxFit.cover,
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 4, bottom: 12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(_bloc.titles[index].title,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontFamily: fontProximaNova)),
+                    ],
+                  ),
+                )
+              ],
             )));
   }
 
   AppBar _appBar() {
     return AppBar(
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: IconThemeData(color: Colors.white),
       centerTitle: true,
-      backgroundColor: Colors.yellow,
+      backgroundColor: Colors.black,
       title: _searchTitle(),
       actions: [_cancelIconButton()],
     );
@@ -108,7 +131,7 @@ class _ListScreenState extends State<ListScreen> {
     return IconButton(
       icon: Icon(
         Icons.cancel,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onPressed: () {
         _searchController.clear();
@@ -119,12 +142,14 @@ class _ListScreenState extends State<ListScreen> {
   Widget _searchTitle() {
     return TextField(
       controller: _searchController,
-      style: GoogleFonts.adventPro(
-        color: Colors.black,
+      style: TextStyle(
+        color: Colors.white,
+        fontFamily: fontProximaNova,
       ),
       decoration: InputDecoration(
           hintText: I18n.of(context).search_list_screenHintSearchFiled,
-          hintStyle: GoogleFonts.adventPro(color: Colors.black)),
+          hintStyle:
+              TextStyle(color: Colors.white, fontFamily: fontProximaNova)),
     );
   }
 }

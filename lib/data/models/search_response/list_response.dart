@@ -1,6 +1,6 @@
-import 'package:imgar/data/models/companie_model.dart';
-import 'package:imgar/data/models/name_model.dart';
-import 'package:imgar/data/models/title_model.dart';
+import 'package:imgar/data/models/search_response/companie_model.dart';
+import 'package:imgar/data/models/search_response/name_model.dart';
+import 'package:imgar/data/models/search_response/title_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'list_response.g.dart';

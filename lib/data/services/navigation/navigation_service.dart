@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 
 class NavigationService {
@@ -8,5 +10,13 @@ class NavigationService {
       return navigatorKey.currentState.pushNamed(routeName, arguments: data);
     }
     return navigatorKey.currentState.pushNamed(routeName);
+  }
+
+  void pop() {
+    navigatorKey.currentState.pop();
+  }
+
+  void exitApp() {
+    exit(0);
   }
 }
