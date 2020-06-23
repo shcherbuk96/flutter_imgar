@@ -9,6 +9,7 @@ import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/generated/i18n.dart';
 import 'package:imgar/ui/film_screen/film_screen_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final navigationService = createNavigationService();
 
@@ -20,13 +21,18 @@ class FilmScreen extends StatefulWidget {
   _FilmScreenState createState() => _FilmScreenState();
 }
 
-class _FilmScreenState extends State<FilmScreen> {
+class _FilmScreenState extends State<FilmScreen>
+    with SingleTickerProviderStateMixin {
   FilmScreenBloc _bloc;
+  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     _bloc = FilmScreenBloc(widget.id);
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 35))
+          ..repeat();
   }
 
   @override
@@ -64,99 +70,169 @@ class _FilmScreenState extends State<FilmScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(_bloc.film.titleType,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontFamily: fontProximaNova)),
+            Visibility(
+              visible: _bloc.film.isTitleType,
+              child: Text(_bloc.film.titleType,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontFamily: fontProximaNova)),
+            ),
             SizedBox(height: 10),
-            Text(_bloc.film.title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 42,
-                    fontFamily: fontProximaNova)),
+            Visibility(
+              visible: _bloc.film.isTitle,
+              child: Text(_bloc.film.title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 42,
+                      fontFamily: fontProximaNova)),
+            ),
             SizedBox(height: 10),
-            Text(_bloc.film.description,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: fontProximaNova)),
+            Visibility(
+              visible: _bloc.film.isDescription,
+              child: Text(_bloc.film.description,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFamily: fontProximaNova)),
+            ),
             SizedBox(height: 20),
             Row(
               children: <Widget>[
-                Icon(
-                  Icons.access_time,
-                  color: Colors.white,
+                Visibility(
+                  visible: _bloc.film.isLength,
+                  child: Icon(
+                    Icons.access_time,
+                    color: Colors.white,
+                  ),
                 ),
                 SizedBox(width: 6),
-                Text(_bloc.film.length,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: fontProximaNova)),
+                Visibility(
+                  visible: _bloc.film.isLength,
+                  child: Text(_bloc.film.length,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: fontProximaNova)),
+                ),
               ],
             ),
             SizedBox(height: 6),
             Row(
               children: <Widget>[
-                Icon(
-                  Icons.calendar_today,
-                  color: Colors.white,
+                Visibility(
+                  visible: _bloc.film.isYearr,
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: Colors.white,
+                  ),
                 ),
                 SizedBox(width: 6),
-                Text(_bloc.film.yearr,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: fontProximaNova)),
+                Visibility(
+                  visible: _bloc.film.isYearr,
+                  child: Text(_bloc.film.yearr.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: fontProximaNova)),
+                ),
               ],
             ),
             SizedBox(height: 6),
             Row(
               children: <Widget>[
-                Icon(
-                  Icons.star,
-                  color: Colors.white,
+                Visibility(
+                  visible: _bloc.film.isRate,
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.white,
+                  ),
                 ),
                 SizedBox(width: 6),
-                Text(_bloc.film.rate,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: fontProximaNova)),
+                Visibility(
+                  visible: _bloc.film.isRate,
+                  child: Text(_bloc.film.rate,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: fontProximaNova)),
+                ),
               ],
             ),
             SizedBox(height: 6),
             Row(
               children: <Widget>[
-                Text("Episodes:",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: fontProximaNova)),
+                Visibility(
+                  visible: _bloc.film.isEpisodes,
+                  child: Text("Episodes:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: fontProximaNova)),
+                ),
                 SizedBox(width: 6),
-                Text(_bloc.film.episodes + " series",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: fontProximaNova)),
+                Visibility(
+                  visible: _bloc.film.isEpisodes,
+                  child: Text(_bloc.film.episodes + " series",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: fontProximaNova)),
+                ),
               ],
             ),
             SizedBox(height: 6),
             Row(
               children: <Widget>[
-                Text(
-                    _bloc.film.titleType +
-                        " (" +
-                        _bloc.film.startSeason +
-                        " - " +
-                        _bloc.film.endSeason +
-                        ")",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: fontProximaNova)),
+                Visibility(
+                  visible: _bloc.film.isStartSeason,
+                  child: Text(
+                      _bloc.film.titleType +
+                          " (" +
+                          _bloc.film.startSeason +
+                          " - " +
+                          _bloc.film.endSeason +
+                          ")",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: fontProximaNova)),
+                ),
               ],
+            ),
+            SizedBox(height: 6),
+            Visibility(
+              visible: _bloc.film.isTrailer,
+              child: Center(
+                  child: AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        return Container(
+                            decoration: BoxDecoration(
+                                color: background.evaluate(
+                                    AlwaysStoppedAnimation(_controller.value)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            height: 150,
+                            width: 350,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: <Widget>[
+                                InkWell(
+                                    onTap: () {
+                                      if (_bloc.film.trailerUrl.isNotEmpty) {
+                                        launch(_bloc.film.trailerUrl);
+                                      } else {
+                                        showToast(I18n.of(context)
+                                            .toast_film_screenHasNotTrailer);
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      child: Icon(Icons.play_arrow),
+                                    ))
+                              ],
+                            ));
+                      })),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -177,7 +253,7 @@ class _FilmScreenState extends State<FilmScreen> {
     return DraggableScrollableSheet(
         initialChildSize: 0.3,
         minChildSize: 0.2,
-        maxChildSize: 0.5,
+        maxChildSize: 0.8,
         builder: (context, scrollController) {
           return SingleChildScrollView(
             controller: scrollController,
@@ -232,6 +308,8 @@ class _FilmScreenState extends State<FilmScreen> {
   @override
   void dispose() {
     _bloc.close();
+    // DB.db.database.then((value) => value.close());
+    _controller.dispose();
     super.dispose();
   }
 
@@ -256,4 +334,29 @@ class _FilmScreenState extends State<FilmScreen> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
+  Animatable<Color> background = TweenSequence<Color>([
+    TweenSequenceItem(
+      weight: 1.0,
+      tween: ColorTween(
+        begin: Colors.black,
+        end: Colors.white,
+      ),
+    ),
+    TweenSequenceItem(
+      weight: 1.0,
+      tween: ColorTween(
+        begin: Colors.white,
+        end: Colors.black,
+      ),
+    ),
+  ]);
+
+  // _launchURL(url) async {
+
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 }

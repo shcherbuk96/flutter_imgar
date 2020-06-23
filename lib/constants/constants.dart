@@ -12,3 +12,5 @@ const String urlApi =
 
 const String urlApiDetailsFilm =
     "https://imdb8.p.rapidapi.com/title/get-details";
+
+const String urlIMDBpromo = "assets/videos/IMDb.mp4";

@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:imgar/constants/constants.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/generated/i18n.dart';
 import 'package:imgar/ui/list_screen/list_screen_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 final navigationService = createNavigationService();
 
@@ -15,6 +18,10 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   bool isSearching = false;
+  bool videoIsVisible = false;
+  VideoPlayerController _videoPlayerController;
+
+  ChewieController _chewieController;
 
   final _bloc = createListScreenBloc();
   TextEditingController _searchController = TextEditingController();
@@ -26,17 +33,22 @@ class _ListScreenState extends State<ListScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.black,
-            //appBar: _appBar(),
-            body: listFilms(),
+            body: _listFilms(),
           );
         });
   }
 
   @override
   void initState() {
-    _searchController.addListener(() {
-      _bloc.add(SearchFilmEvent(_searchController.text));
-    });
+    _videoPlayerController = VideoPlayerController.asset(urlIMDBpromo);
+
+    _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        aspectRatio: 3 / 2,
+        autoPlay: false,
+        looping: true,
+        autoInitialize: true);
+
     super.initState();
   }
 
@@ -44,47 +56,33 @@ class _ListScreenState extends State<ListScreen> {
   void dispose() {
     _bloc.close();
     _searchController.dispose();
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
     super.dispose();
   }
 
-  Widget listFilms() {
+  Widget _listFilms() {
     if (_bloc.state is ListFilmsIsLoadingState) {
       return Scaffold(
           backgroundColor: Colors.black,
-          body: Center(child: CircularProgressIndicator()));
+          body: Center(child: SpinKitFoldingCube(
+            itemBuilder: (context, index) {
+              return DecoratedBox(
+                decoration: BoxDecoration(color: Colors.white),
+              );
+            },
+          )));
     } else {
       return CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-            title: _searchTitle(),
-            iconTheme: IconThemeData(color: Colors.white),
-            centerTitle: true,
-            backgroundColor: Colors.black,
-            actions: [_cancelIconButton()],
-            expandedHeight: 200.0,
-            pinned: true,
-            elevation: 20,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(imdb_header),
-
-              //stretchModes: <StretchMode>[StretchMode.blurBackground,StretchMode.fadeTitle,StretchMode.zoomBackground],
-            ),
-          ),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) => itemListView(index),
-                  childCount: _bloc.titles.length))
+          _silverAppBar(),
+          _sliverList(),
         ],
       );
-      // return ListView.builder(
-      //     itemCount: _bloc.titles.length,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       return itemListView(index);
-      //     });
     }
   }
 
-  Widget itemListView(int index) {
+  Widget _itemSilverListView(int index) {
     return InkWell(
         onTap: () => {_bloc.add(GoToFilmScreenEvent(_bloc.titles[index].id))},
         child: Container(
@@ -94,8 +92,12 @@ class _ListScreenState extends State<ListScreen> {
               children: <Widget>[
                 CachedNetworkImage(
                   imageUrl: _bloc.titles[index].image,
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
+                  placeholder: (context, url) => Center(child: SpinKitWave(
+                    itemBuilder: (context, index) {
+                      return DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.white));
+                    },
+                  )),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                   fit: BoxFit.cover,
                 ),
@@ -117,14 +119,42 @@ class _ListScreenState extends State<ListScreen> {
             )));
   }
 
-  AppBar _appBar() {
-    return AppBar(
-      iconTheme: IconThemeData(color: Colors.white),
-      centerTitle: true,
-      backgroundColor: Colors.black,
-      title: _searchTitle(),
-      actions: [_cancelIconButton()],
-    );
+  SliverAppBar _silverAppBar() {
+    return SliverAppBar(
+        title: _searchTitle(),
+        iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+        actions: [_cancelIconButton()],
+        expandedHeight: 200.0,
+        pinned: true,
+        elevation: 20,
+        flexibleSpace: InkWell(
+            onTap: () => setState(() {
+                  videoIsVisible = true;
+                  _chewieController.play();
+                }),
+            child: Stack(
+              children: <Widget>[
+                Visibility(
+                    visible: !videoIsVisible,
+                    child: FlexibleSpaceBar(
+                      background: Image.asset(imdb_header),
+                    )),
+                Visibility(
+                    visible: videoIsVisible,
+                    child: Chewie(
+                      controller: _chewieController,
+                    ))
+              ],
+            )));
+  }
+
+  SliverList _sliverList() {
+    return SliverList(
+        delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) => _itemSilverListView(index),
+            childCount: _bloc.titles.length));
   }
 
   IconButton _cancelIconButton() {
@@ -140,12 +170,16 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   Widget _searchTitle() {
-    return TextField(
+    return TextFormField(
       controller: _searchController,
+      textInputAction: TextInputAction.done,
       style: TextStyle(
         color: Colors.white,
         fontFamily: fontProximaNova,
       ),
+      onFieldSubmitted: (value) {
+        _bloc.add(SearchFilmEvent(_searchController.text));
+      },
       decoration: InputDecoration(
           hintText: I18n.of(context).search_list_screenHintSearchFiled,
           hintStyle:

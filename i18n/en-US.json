@@ -1,18 +1,19 @@
 {
     "titles": {
-        "MainScreen":"Main Page",
-        "ListScreen" : "Films",
-        "FilmScreen" : "Details"
+        "MainScreen": "Main Page",
+        "ListScreen": "Films",
+        "FilmScreen": "Details"
     },
-    "search_list_screen":{
-        "hintSearchFiled" : "Enter the movie"
+    "search_list_screen": {
+        "hintSearchFiled": "Enter the movie"
     },
-    "bottom_navigation_film_screen":{
+    "bottom_navigation_film_screen": {
         "backBottomNavBarItem": "Back",
-        "saveBottomNavBarItem" : "Save"
+        "saveBottomNavBarItem": "Save"
     },
-    "toast_film_screen":{
+    "toast_film_screen": {
         "imageIsSaving": "Saving...",
-        "imageIsSaved" : "Image is saved"
+        "imageIsSaved": "Image is saved",
+        "hasNotTrailer": "This movie hasn't trailer"
     }
 }

@@ -48,6 +48,8 @@ class I18n implements WidgetsLocalizations {
   String get toast_film_screenImageIsSaving => "Saving...";
   /// "Image is saved"
   String get toast_film_screenImageIsSaved => "Image is saved";
+  /// "This movie hasn't trailer"
+  String get toast_film_screenHasNotTrailer => "This movie hasn't trailer";
 }
 
 class _I18n_en_US extends I18n {
@@ -84,6 +86,9 @@ class _I18n_ru_RU extends I18n {
   /// "Изображение сохранено"
   @override
   String get toast_film_screenImageIsSaved => "Изображение сохранено";
+  /// "В этом фильме нет трейлера"
+  @override
+  String get toast_film_screenHasNotTrailer => "В этом фильме нет трейлера";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

@@ -47,10 +47,10 @@ class _MainScreenState extends State<MainScreen>
       body: Padding(
           padding: const EdgeInsets.all(48),
           child: Center(
-            child: RotationTransition(
-              turns: _animationController,
+            child: SizeTransition(
+              sizeFactor: _animationController,
               child: Image.asset(imdb_logo),
-              alignment: Alignment.center,
+              // axisAlignment: 1,
             ),
             // child: Image.asset(imdb_logo),
           )),
@@ -72,9 +72,7 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     I18n.onLocaleChanged = onLocaleChange;
-    _animationController =
-        AnimationController(duration: Duration(seconds: 15), vsync: this)
-          ..repeat();
+    _animationController = AnimationController(vsync: this)..fling();
   }
 
   void onLocaleChange(Locale locale) {

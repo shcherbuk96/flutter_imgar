@@ -1,18 +1,19 @@
 {
     "titles": {
-        "MainScreen":"Главная страница",
-        "ListScreen" : "Фильмы",
-        "FilmScreen" : "Описание"
+        "MainScreen": "Главная страница",
+        "ListScreen": "Фильмы",
+        "FilmScreen": "Описание"
     },
-    "search_list_screen":{
-        "hintSearchFiled" : "Введите фильм"
+    "search_list_screen": {
+        "hintSearchFiled": "Введите фильм"
     },
-    "bottom_navigation_film_screen":{
+    "bottom_navigation_film_screen": {
         "backBottomNavBarItem": "Назад",
-        "saveBottomNavBarItem" : "Сохранить"
+        "saveBottomNavBarItem": "Сохранить"
     },
-    "toast_film_screen":{
+    "toast_film_screen": {
         "imageIsSaving": "Сохранение...",
-        "imageIsSaved" : "Изображение сохранено"
+        "imageIsSaved": "Изображение сохранено",
+        "hasNotTrailer": "В этом фильме нет трейлера"
     }
 }

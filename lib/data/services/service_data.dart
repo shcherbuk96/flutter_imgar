@@ -10,14 +10,19 @@ class ServiceData {
   final chopperRestDetailsClient = createRestDetailsClient();
 
   getInformationAboutFilm(String id) async {
-    // DB.nameTable = id;
-    // await DB.init();
+    // DB.table = id;
+    // final res = await DB.db.getFilms().then((value) => value);
 
-    // if (getInformationAboutFilmFromDB(id) != null) {
-    //   return await getInformationAboutFilmFromDB(id);
-    // } else {
+    // if (res != null && res.isNotEmpty) {
+    //   return res[0];
+    // }
+    // print(res.toString());
+    //  if (getInformationAboutFilmFromDB(id) != null) {
+    // //   return await getInformationAboutFilmFromDB(id);
+    // // } else {
     final film = await getInformationAboutFilmFromApi(id);
-    //saveInformationAboutFilmFToDB(film);
+    // saveInformationAboutFilmFToDB(film);
+    // //saveInformationAboutFilmFToDB(film);
     return film;
     // }
   }
@@ -31,29 +36,41 @@ class ServiceData {
         .then((value) => value.body);
 
     AboutFilm film = AboutFilm(
-        filmResponse.id,
-        someDetailes.titleType,
-        filmResponse.title,
-        filmResponse.poster,
-        filmResponse.plot,
-        filmResponse.length,
-        someDetailes.year.toString(),
-        filmResponse.rating,
-        someDetailes.numberOfEpisodes.toString(),
-        someDetailes.seriesStartYear.toString(),
-        someDetailes.seriesEndYear.toString());
+      filmResponse.id,
+      someDetailes.titleType,
+      someDetailes.titleType.isNotEmpty ? true : false,
+      filmResponse.title,
+      filmResponse.title.isNotEmpty ? true : false,
+      filmResponse.poster,
+      filmResponse.poster.isNotEmpty ? true : false,
+      filmResponse.plot,
+      filmResponse.plot.isNotEmpty ? true : false,
+      filmResponse.length,
+      filmResponse.length.isNotEmpty ? true : false,
+      someDetailes.year.toString(),
+      someDetailes.year.toString().isNotEmpty ? true : false,
+      filmResponse.rating,
+      filmResponse.rating.isNotEmpty ? true : false,
+      someDetailes.numberOfEpisodes.toString(),
+      someDetailes.numberOfEpisodes != 0 ? true : false,
+      someDetailes.seriesStartYear.toString(),
+      someDetailes.seriesStartYear != 0 ? true : false,
+      someDetailes.seriesEndYear.toString(),
+      someDetailes.seriesEndYear != 0 ? true : false,
+      filmResponse.trailer.link,
+      filmResponse.trailer.link.isNotEmpty ? true : false,
+    );
 
     return film;
   }
 
   getInformationAboutFilmFromDB(String id) async {
-    List<Map<String, dynamic>> _results = await DB.query(id);
-    final obj = _results.map((item) => AboutFilm.fromMap(item)).toList();
-    return obj[0];
+    List<AboutFilm> _results = await DB.db.getFilms();
+    return _results[0];
   }
 
   saveInformationAboutFilmFToDB(AboutFilm filmFromAPI) async {
-    await DB.insert(filmFromAPI.id, filmFromAPI);
+    await DB.db.insert(filmFromAPI);
   }
 
   getFoundFilms(String query) async {
