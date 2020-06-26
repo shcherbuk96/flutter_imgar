@@ -4,6 +4,7 @@ import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/ui/film_screen/film_sreen.dart';
 import 'package:imgar/ui/list_screen/list_screen.dart';
 import 'package:imgar/ui/main_screen.dart';
+import 'package:imgar/ui/navigation_page/navigation_page.dart';
 
 import 'custom_page_route.dart';
 
@@ -16,6 +17,8 @@ class Router {
         return PageAnimationRoute(ListScreen());
       case filmScreenRoute:
         return PageAnimationRoute(FilmScreen(settings.arguments as String));
+      case navigationPageRoute:
+        return PageAnimationRoute(NavigationPage());
       default:
         return PageAnimationRoute(Scaffold(
           body: Center(child: Text('No route defined for ${settings.name}')),

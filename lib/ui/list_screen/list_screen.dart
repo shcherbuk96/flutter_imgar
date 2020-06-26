@@ -12,6 +12,9 @@ import 'package:video_player/video_player.dart';
 final navigationService = createNavigationService();
 
 class ListScreen extends StatefulWidget {
+  ListScreen({
+    Key key,
+  }) : super(key: key);
   @override
   _ListScreenState createState() => _ListScreenState();
 }

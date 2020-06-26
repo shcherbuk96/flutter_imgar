@@ -43,6 +43,7 @@ dependencies:
   video_player: ^0.10.11+1
   chewie: ^0.9.10
   flutter_spinkit: ^4.1.2+1
+  package_info: ^0.4.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -75,6 +76,9 @@ flutter:
     - assets/imdb.png
     - assets/imdb_logo.png
     - assets/header.jpg
+    - assets/vk.png
+    - assets/instagram.png
+    - assets/skype.png
     - assets/videos/IMDb.mp4
 
 

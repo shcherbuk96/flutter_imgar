@@ -41,7 +41,7 @@ class MainScreenBloc extends Bloc<MainScreenEvents, MainScreenStates> {
   Stream<MainScreenStates> mapEventToState(MainScreenEvents event) async* {
     if (event is NavigateToNextScreenEvent) {
       _setVisibilityScreen(true);
-      navigationService.navigateTo(listScreenRoute, null);
+      navigationService.navigateTo(navigationPageRoute, null);
     } else if (event is ExitFromAppEvent) {
       navigationService.exitApp();
     }

@@ -15,5 +15,9 @@
         "imageIsSaving": "Saving...",
         "imageIsSaved": "Image is saved",
         "hasNotTrailer": "This movie hasn't trailer"
+    },
+    "navigation_page": {
+        "home": "Home",
+        "about": "About"
     }
 }

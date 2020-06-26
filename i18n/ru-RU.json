@@ -15,5 +15,9 @@
         "imageIsSaving": "Сохранение...",
         "imageIsSaved": "Изображение сохранено",
         "hasNotTrailer": "В этом фильме нет трейлера"
+    },
+    "navigation_page": {
+        "home": "Главная",
+        "about": "О приложении"
     }
 }

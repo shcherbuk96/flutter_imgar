@@ -50,6 +50,10 @@ class I18n implements WidgetsLocalizations {
   String get toast_film_screenImageIsSaved => "Image is saved";
   /// "This movie hasn't trailer"
   String get toast_film_screenHasNotTrailer => "This movie hasn't trailer";
+  /// "Home"
+  String get navigation_pageHome => "Home";
+  /// "About"
+  String get navigation_pageAbout => "About";
 }
 
 class _I18n_en_US extends I18n {
@@ -89,6 +93,12 @@ class _I18n_ru_RU extends I18n {
   /// "В этом фильме нет трейлера"
   @override
   String get toast_film_screenHasNotTrailer => "В этом фильме нет трейлера";
+  /// "Главная"
+  @override
+  String get navigation_pageHome => "Главная";
+  /// "О приложении"
+  @override
+  String get navigation_pageAbout => "О приложении";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
