@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:imgar/constants/constants.dart';
 import 'package:imgar/data/services/service_locator.dart';
+import 'package:imgar/generated/i18n.dart';
+import 'package:imgar/theme/assets.dart';
 import 'package:imgar/ui/navigation_page/navigation_page_bloc.dart';
-
-import '../../data/services/service_locator.dart';
-import '../../generated/i18n.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -55,8 +53,8 @@ class NavigationPageState extends State<NavigationPage> {
             ),
             title: Text(
               I18n.of(context).navigation_pageHome,
-              style:
-                  TextStyle(color: Colors.white, fontFamily: fontProximaNova),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: Assets.fontProximaNova),
             ),
           ),
           BottomNavigationBarItem(
@@ -66,8 +64,8 @@ class NavigationPageState extends State<NavigationPage> {
             ),
             title: Text(
               I18n.of(context).navigation_pageAbout,
-              style:
-                  TextStyle(color: Colors.white, fontFamily: fontProximaNova),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: Assets.fontProximaNova),
             ),
           )
         ],

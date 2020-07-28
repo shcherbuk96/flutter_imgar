@@ -54,6 +54,14 @@ class I18n implements WidgetsLocalizations {
   String get navigation_pageHome => "Home";
   /// "About"
   String get navigation_pageAbout => "About";
+  /// "Yauheni_Shcharbuk"
+  String get about_pageInstagram_login => "Yauheni_Shcharbuk";
+  /// "Zhenya Scherbuk"
+  String get about_pageVk_login => "Zhenya Scherbuk";
+  /// "Yauheni_Shcharbuk"
+  String get about_pageSkype_login => "Yauheni_Shcharbuk";
+  /// "About"
+  String get about_pageTitle => "About";
 }
 
 class _I18n_en_US extends I18n {
@@ -99,6 +107,18 @@ class _I18n_ru_RU extends I18n {
   /// "О приложении"
   @override
   String get navigation_pageAbout => "О приложении";
+  /// "Yauheni_Shcharbuk"
+  @override
+  String get about_pageInstagram_login => "Yauheni_Shcharbuk";
+  /// "Zhenya Scherbuk"
+  @override
+  String get about_pageVk_login => "Zhenya Scherbuk";
+  /// "Yauheni_Shcharbuk"
+  @override
+  String get about_pageSkype_login => "Yauheni_Shcharbuk";
+  /// "О приложении"
+  @override
+  String get about_pageTitle => "О приложении";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

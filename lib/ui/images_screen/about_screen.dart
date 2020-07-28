@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imgar/constants/constants.dart';
+import 'package:imgar/generated/i18n.dart';
+import 'package:imgar/theme/assets.dart';
+import 'package:imgar/theme/insets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -23,72 +26,79 @@ class _AboutScreenState extends State<AboutScreen> {
 
   Widget _body() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(Insets.x2_5),
       child: Column(
         children: <Widget>[
           Image.asset(
-            imdb,
-            height: 200,
+            Assets.imdb,
+            height: Insets.x50,
           ),
           SizedBox(
-            height: 10,
+            height: Insets.x2_5,
           ),
           Text(
             imdb_description,
-            style: TextStyle(color: Colors.white, fontFamily: fontProximaNova),
+            style: TextStyle(
+                color: Colors.white, fontFamily: Assets.fontProximaNova),
           ),
           SizedBox(
-            height: 20,
+            height: Insets.x5,
           ),
           Row(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(right: 10, left: 10),
-                  child: Image.asset(icon_instagram)),
+                  padding:
+                      EdgeInsets.only(right: Insets.x2_5, left: Insets.x2_5),
+                  child: Image.asset(Assets.icon_instagram)),
               SizedBox(
-                width: 5,
+                width: Insets.x1_5,
               ),
               InkWell(
                   onTap: () => launch(url_instagram),
-                  child: Text("Yauheni_Shcharbuk",
+                  child: Text(I18n.of(context).about_pageInstagram_login,
                       style: TextStyle(
-                          color: Colors.white, fontFamily: fontProximaNova))),
+                          color: Colors.white,
+                          fontFamily: Assets.fontProximaNova))),
             ],
           ),
           SizedBox(
-            height: 10,
+            height: Insets.x2_5,
           ),
           Row(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(right: 10, left: 10),
-                  child: Image.asset(icon_vk)),
+                  padding:
+                      EdgeInsets.only(right: Insets.x2_5, left: Insets.x2_5),
+                  child: Image.asset(Assets.icon_vk)),
               SizedBox(
-                width: 5,
+                width: Insets.x1_5,
               ),
               InkWell(
                   onTap: () => launch(url_vk),
-                  child: Text("Zhenya Scherbuk",
+                  child: Text(I18n.of(context).about_pageVk_login,
                       style: TextStyle(
-                          color: Colors.white, fontFamily: fontProximaNova))),
+                          color: Colors.white,
+                          fontFamily: Assets.fontProximaNova))),
             ],
           ),
           SizedBox(
-            height: 10,
+            height: Insets.x2_5,
           ),
           Row(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(right: 10, left: 10),
-                  child: Image.asset(icon_skype)),
+                  padding:
+                      EdgeInsets.only(right: Insets.x2_5, left: Insets.x2_5),
+                  child: Image.asset(Assets.icon_skype)),
               SizedBox(
-                width: 5,
+                width: Insets.x1_5,
               ),
               InkWell(
                   onTap: () => launch(url_skype),
-                  child: Text("Yauheni Shcharbuk",
+                  child: Text(I18n.of(context).about_pageSkype_login,
                       style: TextStyle(
-                          color: Colors.white, fontFamily: fontProximaNova))),
+                          color: Colors.white,
+                          fontFamily: Assets.fontProximaNova))),
             ],
           ),
         ],
@@ -100,8 +110,9 @@ class _AboutScreenState extends State<AboutScreen> {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text(
-        "About",
-        style: TextStyle(color: Colors.white, fontFamily: fontProximaNova),
+        I18n.of(context).about_pageTitle,
+        style:
+            TextStyle(color: Colors.white, fontFamily: Assets.fontProximaNova),
       ),
       centerTitle: true,
     );

@@ -3,9 +3,11 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:imgar/constants/constants.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/generated/i18n.dart';
+import 'package:imgar/theme/assets.dart';
+import 'package:imgar/theme/font_sizes.dart';
+import 'package:imgar/theme/insets.dart';
 import 'package:imgar/ui/list_screen/list_screen_bloc.dart';
 import 'package:video_player/video_player.dart';
 
@@ -43,7 +45,7 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   void initState() {
-    _videoPlayerController = VideoPlayerController.asset(urlIMDBpromo);
+    _videoPlayerController = VideoPlayerController.asset(Assets.urlIMDBpromo);
 
     _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
@@ -89,7 +91,7 @@ class _ListScreenState extends State<ListScreen> {
     return InkWell(
         onTap: () => {_bloc.add(GoToFilmScreenEvent(_bloc.titles[index].id))},
         child: Container(
-            height: 350,
+            height: Insets.x87_5,
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
@@ -105,7 +107,8 @@ class _ListScreenState extends State<ListScreen> {
                   fit: BoxFit.cover,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 4, bottom: 12),
+                  padding: const EdgeInsets.only(
+                      left: Insets.x2, right: Insets.x1, bottom: Insets.x3),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,8 +116,8 @@ class _ListScreenState extends State<ListScreen> {
                       Text(_bloc.titles[index].title,
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 32,
-                              fontFamily: fontProximaNova)),
+                              fontSize: FontSizes.big_4x,
+                              fontFamily: Assets.fontProximaNova)),
                     ],
                   ),
                 )
@@ -129,9 +132,9 @@ class _ListScreenState extends State<ListScreen> {
         centerTitle: true,
         backgroundColor: Colors.black,
         actions: [_cancelIconButton()],
-        expandedHeight: 200.0,
+        expandedHeight: Insets.x50,
         pinned: true,
-        elevation: 20,
+        elevation: Insets.x5,
         flexibleSpace: InkWell(
             onTap: () => setState(() {
                   videoIsVisible = true;
@@ -142,7 +145,7 @@ class _ListScreenState extends State<ListScreen> {
                 Visibility(
                     visible: !videoIsVisible,
                     child: FlexibleSpaceBar(
-                      background: Image.asset(imdb_header),
+                      background: Image.asset(Assets.imdb_header),
                     )),
                 Visibility(
                     visible: videoIsVisible,
@@ -178,15 +181,15 @@ class _ListScreenState extends State<ListScreen> {
       textInputAction: TextInputAction.done,
       style: TextStyle(
         color: Colors.white,
-        fontFamily: fontProximaNova,
+        fontFamily: Assets.fontProximaNova,
       ),
       onFieldSubmitted: (value) {
         _bloc.add(SearchFilmEvent(_searchController.text));
       },
       decoration: InputDecoration(
           hintText: I18n.of(context).search_list_screenHintSearchFiled,
-          hintStyle:
-              TextStyle(color: Colors.white, fontFamily: fontProximaNova)),
+          hintStyle: TextStyle(
+              color: Colors.white, fontFamily: Assets.fontProximaNova)),
     );
   }
 }

@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:imgar/constants/constants.dart';
 import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/generated/i18n.dart';
+import 'package:imgar/theme/assets.dart';
+import 'package:imgar/theme/font_sizes.dart';
+import 'package:imgar/theme/insets.dart';
 import 'package:imgar/ui/film_screen/film_screen_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,7 +68,8 @@ class _FilmScreenState extends State<FilmScreen>
 
   Padding _buildDetailsBottomSheet() {
     return Padding(
-        padding: const EdgeInsets.only(left: 24, top: 10, right: 24),
+        padding: const EdgeInsets.only(
+            left: Insets.x6, top: Insets.x2_5, right: Insets.x6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -75,28 +78,28 @@ class _FilmScreenState extends State<FilmScreen>
               child: Text(_bloc.film.titleType,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 36,
-                      fontFamily: fontProximaNova)),
+                      fontSize: FontSizes.big_5x,
+                      fontFamily: Assets.fontProximaNova)),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: Insets.x2_5),
             Visibility(
               visible: _bloc.film.isTitle,
               child: Text(_bloc.film.title,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 42,
-                      fontFamily: fontProximaNova)),
+                      fontSize: FontSizes.big_6x,
+                      fontFamily: Assets.fontProximaNova)),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: Insets.x2_5),
             Visibility(
               visible: _bloc.film.isDescription,
               child: Text(_bloc.film.description,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: fontProximaNova)),
+                      fontSize: FontSizes.normal,
+                      fontFamily: Assets.fontProximaNova)),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: Insets.x5),
             Row(
               children: <Widget>[
                 Visibility(
@@ -106,18 +109,18 @@ class _FilmScreenState extends State<FilmScreen>
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 6),
+                SizedBox(width: Insets.x1_5),
                 Visibility(
                   visible: _bloc.film.isLength,
                   child: Text(_bloc.film.length,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: fontProximaNova)),
+                          fontSize: FontSizes.big_1x,
+                          fontFamily: Assets.fontProximaNova)),
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            SizedBox(height: Insets.x1_5),
             Row(
               children: <Widget>[
                 Visibility(
@@ -127,18 +130,18 @@ class _FilmScreenState extends State<FilmScreen>
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 6),
+                SizedBox(width: Insets.x1_5),
                 Visibility(
                   visible: _bloc.film.isYearr,
                   child: Text(_bloc.film.yearr.toString(),
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: fontProximaNova)),
+                          fontSize: FontSizes.big_1x,
+                          fontFamily: Assets.fontProximaNova)),
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            SizedBox(height: Insets.x1_5),
             Row(
               children: <Widget>[
                 Visibility(
@@ -148,18 +151,18 @@ class _FilmScreenState extends State<FilmScreen>
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 6),
+                SizedBox(width: Insets.x1_5),
                 Visibility(
                   visible: _bloc.film.isRate,
                   child: Text(_bloc.film.rate,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: fontProximaNova)),
+                          fontSize: FontSizes.big_1x,
+                          fontFamily: Assets.fontProximaNova)),
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            SizedBox(height: Insets.x1_5),
             Row(
               children: <Widget>[
                 Visibility(
@@ -167,21 +170,21 @@ class _FilmScreenState extends State<FilmScreen>
                   child: Text("Episodes:",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: fontProximaNova)),
+                          fontSize: FontSizes.big_1x,
+                          fontFamily: Assets.fontProximaNova)),
                 ),
-                SizedBox(width: 6),
+                SizedBox(width: Insets.x1_5),
                 Visibility(
                   visible: _bloc.film.isEpisodes,
                   child: Text(_bloc.film.episodes + " series",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: fontProximaNova)),
+                          fontSize: FontSizes.big_1x,
+                          fontFamily: Assets.fontProximaNova)),
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            SizedBox(height: Insets.x1_5),
             Row(
               children: <Widget>[
                 Visibility(
@@ -195,12 +198,12 @@ class _FilmScreenState extends State<FilmScreen>
                           ")",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: fontProximaNova)),
+                          fontSize: FontSizes.big_1x,
+                          fontFamily: Assets.fontProximaNova)),
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            SizedBox(height: Insets.x1_5),
             Visibility(
               visible: _bloc.film.isTrailer,
               child: Center(
@@ -213,8 +216,8 @@ class _FilmScreenState extends State<FilmScreen>
                                     AlwaysStoppedAnimation(_controller.value)),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
-                            height: 150,
-                            width: 350,
+                            height: Insets.x37_5,
+                            width: Insets.x87_5,
                             child: Stack(
                               alignment: Alignment.center,
                               children: <Widget>[
@@ -285,7 +288,8 @@ class _FilmScreenState extends State<FilmScreen>
       backgroundColor: Colors.black,
       title: Text(
         _bloc.film.title,
-        style: TextStyle(color: Colors.white, fontFamily: fontProximaNova),
+        style:
+            TextStyle(color: Colors.white, fontFamily: Assets.fontProximaNova),
       ),
       centerTitle: true,
     );
@@ -308,7 +312,6 @@ class _FilmScreenState extends State<FilmScreen>
   @override
   void dispose() {
     _bloc.close();
-    // DB.db.database.then((value) => value.close());
     _controller.dispose();
     super.dispose();
   }
@@ -332,7 +335,7 @@ class _FilmScreenState extends State<FilmScreen>
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.black,
         textColor: Colors.white,
-        fontSize: 16.0);
+        fontSize: FontSizes.normal);
   }
 
   Animatable<Color> background = TweenSequence<Color>([
@@ -351,12 +354,4 @@ class _FilmScreenState extends State<FilmScreen>
       ),
     ),
   ]);
-
-  // _launchURL(url) async {
-
-  //     await launch(url);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
 }

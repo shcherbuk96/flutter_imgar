@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:imgar/constants/constants.dart';
 import 'package:imgar/constants/routes_constants.dart';
 import 'package:imgar/data/services/navigation/routes.dart';
 import 'package:imgar/data/services/service_locator.dart';
 import 'package:imgar/generated/i18n.dart';
+import 'package:imgar/theme/assets.dart';
+import 'package:imgar/theme/insets.dart';
 import 'package:imgar/ui/main_screen_bloc.dart';
 
 var navigationService = createNavigationService();
@@ -15,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(MaterialApp(
-    theme: ThemeData(fontFamily: fontProximaNova),
+    theme: ThemeData(fontFamily: Assets.fontProximaNova),
     localizationsDelegates: const [
       I18n.delegate,
       GlobalMaterialLocalizations.delegate,
@@ -45,19 +46,17 @@ class _MainScreenState extends State<MainScreen>
     return Scaffold(
       appBar: _appBar(),
       body: Padding(
-          padding: const EdgeInsets.all(48),
+          padding: const EdgeInsets.all(Insets.x12_5),
           child: Center(
             child: SizeTransition(
               sizeFactor: _animationController,
-              child: Image.asset(imdb_logo),
-              // axisAlignment: 1,
+              child: Image.asset(Assets.imdb_logo),
             ),
-            // child: Image.asset(imdb_logo),
           )),
       backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(Insets.x2),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[

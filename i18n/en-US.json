@@ -19,5 +19,11 @@
     "navigation_page": {
         "home": "Home",
         "about": "About"
+    },
+    "about_page": {
+        "instagram_login": "Yauheni_Shcharbuk",
+        "vk_login": "Zhenya Scherbuk",
+        "skype_login": "Yauheni_Shcharbuk",
+        "title": "About"
     }
 }
